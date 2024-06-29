@@ -46,34 +46,7 @@ def LoginPage(request):
         else:
             return HttpResponse("Invalid Credentials.")
     return render(request, 'login.html')
-# def LoginPage(request):
-#     if request.method=="POST":
-#         user=request.POST.get('username')
-#         pass1=request.POST.get('pass')
-#         user_auth=authenticate(request,username=user, password=pass1)
-#         if user_auth is not None:
-#             login(request,user_auth)
-#             return redirect('home')
-#         else:
-#             return HttpResponse("Invalid Credentials.")
-#     return render(request,'login.html')
-# def LoginPage(request):
-#     if request.method == 'POST':
-#         form = AuthenticationForm(request, data=request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 return redirect ('home')
-#     else:
-#         form = AuthenticationForm()
-#     if 'ession_expired' in request.GET:
-#         message = 'Session expired. Please log in again.'
-#     else:
-#         message = ''
-#     return render(request, 'login.html', {'form': form, 'essage': message})
+
 def LogoutPage(request):
     logout(request)
     return redirect('login')
