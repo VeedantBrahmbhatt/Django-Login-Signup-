@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,7 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'myapp.middleware.SessionTimeoutMiddleware',
+    'django_auto_logout.middleware.auto_logout',
+    # 'myapp.middleware.AutoLogoutMiddleware',
 ]
 
 ROOT_URLCONF = 'LoginSignup.urls'
@@ -64,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_auto_logout.context_processors.auto_logout_client',#auto logout
             ],
         },
     },
@@ -125,5 +128,36 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Session settings
-SESSION_COOKIE_AGE = 30 # Session lasts for 30 seconds
+SESSION_COOKIE_AGE = 15 # Session lasts for 30 seconds
 SESSION_SAVE_EVERY_REQUEST = True  # Save the session to keep it active on each request
+
+
+AUTO_LOGOUT={'IDLE_TIME':15, 'REDIRECT_TO_LOGIN_IMMEDIATELY':True, 'MESSAGE':' Session Time Out! Login Again. ',}
+
+
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'user_activity.log'),  # Adjust log file path as needed
+            'formatter': 'verbose',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s [%(levelname)s] %(message)s',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}

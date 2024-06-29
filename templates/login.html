@@ -4,8 +4,11 @@
     {% if messages %}
         <ul>
             {% for message in messages %}
+            <div class="message {{message.tags}}">
                 <li>{{ message }}</li>
+            </div>
             {% endfor %}
+        
         </ul>
     {% endif %}
   <!-- Design by foolishdeveloper.com -->
